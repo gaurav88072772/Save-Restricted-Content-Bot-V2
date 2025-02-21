@@ -456,7 +456,7 @@ async def split_and_upload_file(app, sender, file_path, caption):
             # Uploading part
             edit = await app.send_message(sender, f"⬆️ Uploading part {part_number + 1}...")
             part_caption = f"{caption} \n\n**Part : {part_number + 1}**"
-            await app.send_document(sender, document=part_file, caption=part_caption,
+            await app.send_document(sender, document=part_file, caption=(part_caption or "") + "\n\nDownload by @skillwithgaurav",
                 progress=progress_bar,
                 progress_args=("╭─────────────────────╮\n│      **__Pyro Uploader__**\n├─────────────────────", edit, time.time())
             )
