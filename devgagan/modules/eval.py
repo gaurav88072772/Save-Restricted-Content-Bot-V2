@@ -95,7 +95,7 @@ async def executor(client, message):
         )
         await message.reply_document(
             document=filename,
-            caption="Join-@skillwithgaurav\nleaked by गौरव",
+            caption=f"<b>🔗 ᴇᴠᴀʟ :</b>\n<code>{cmd[0:980]}</code>\n\n<b>📕 ʀᴇsᴜʟᴛ :</b>\nᴀᴛᴛᴀᴄʜᴇᴅ ᴅᴏᴄᴜᴍᴇɴᴛ",
             quote=False,
             reply_markup=keyboard,
         )
@@ -145,6 +145,8 @@ async def forceclose_command(_, CallbackQuery):
         return
 
 
+
+
 @app.on_edited_message(
     filters.command("shll")
     & filters.user(OWNER_ID)
@@ -161,27 +163,46 @@ async def shellrunner(_, message):
     if len(message.command) < 2:
         return await edit_or_reply(message, text="<b>ᴇxᴀᴍᴩʟᴇ :</b>\n/sh git pull")
     text = message.text.split(None, 1)[1]
-    shell = re.split(""" (?=(?:[^'"]|'[^']*'|"[^"]*")*$)""", text)
-    for a in range(len(shell)):
-        shell[a] = shell[a].replace('"', "")
-    try:
-        process = subprocess.Popen(
-            shell,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-    except Exception as err:
-        print(err)
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        errors = traceback.format_exception(
-            etype=exc_type,
-            value=exc_obj,
-            tb=exc_tb,
-        )
-        return await edit_or_reply(
-            message, text=f"<b>ERROR :</b>\n<pre>{''.join(errors)}</pre>"
-        )
-    output = process.stdout.read()[:-1].decode("utf-8")
+    if "\n" in text:
+        code = text.split("\n")
+        output = ""
+        for x in code:
+            shell = re.split(""" (?=(?:[^'"]|'[^']*'|"[^"]*")*$)""", x)
+            try:
+                process = subprocess.Popen(
+                    shell,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                )
+            except Exception as err:
+                await edit_or_reply(message, text=f"<b>ERROR :</b>\n<pre>{err}</pre>")
+            output += f"<b>{code}</b>\n"
+            output += process.stdout.read()[:-1].decode("utf-8")
+            output += "\n"
+    else:
+        shell = re.split(""" (?=(?:[^'"]|'[^']*'|"[^"]*")*$)""", text)
+        for a in range(len(shell)):
+            shell[a] = shell[a].replace('"', "")
+        try:
+            process = subprocess.Popen(
+                shell,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
+        except Exception as err:
+            print(err)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            errors = traceback.format_exception(
+                etype=exc_type,
+                value=exc_obj,
+                tb=exc_tb,
+            )
+            return await edit_or_reply(
+                message, text=f"<b>ERROR :</b>\n<pre>{''.join(errors)}</pre>"
+            )
+        output = process.stdout.read()[:-1].decode("utf-8")
+    if str(output) == "\n":
+        output = None
     if output:
         if len(output) > 4096:
             with open("output.txt", "w+") as file:
@@ -190,7 +211,7 @@ async def shellrunner(_, message):
                 message.chat.id,
                 "output.txt",
                 reply_to_message_id=message.id,
-                caption="Join-@skillwithgaurav\nleaked by गौरव",
+                caption="<code>Output</code>",
             )
             return os.remove("output.txt")
         await edit_or_reply(message, text=f"<b>OUTPUT :</b>\n<pre>{output}</pre>")
