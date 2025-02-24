@@ -95,7 +95,7 @@ async def upload_media(sender, target_chat_id, file, caption, edit, topic_id):
         # Pyrogram upload
         if upload_method == "Pyrogram":
             if file.split('.')[-1].lower() in video_formats:
-                dm = await app.send_video(, caption="Join-@skillwithgaurav\nleaked by गौरव"
+                dm = await app.send_video(
                     chat_id=target_chat_id,
                     video=file,
                     caption=caption,
@@ -111,7 +111,7 @@ async def upload_media(sender, target_chat_id, file, caption, edit, topic_id):
                 await dm.copy(LOG_GROUP)
                 
             elif file.split('.')[-1].lower() in image_formats:
-                dm = await app.send_photo(, caption="Join-@skillwithgaurav\nleaked by गौरव"
+                dm = await app.send_photo(
                     chat_id=target_chat_id,
                     photo=file,
                     caption=caption,
@@ -122,7 +122,7 @@ async def upload_media(sender, target_chat_id, file, caption, edit, topic_id):
                 )
                 await dm.copy(LOG_GROUP)
             else:
-                dm = await app.send_document(, caption="Join-@skillwithgaurav\nleaked by गौरव"
+                dm = await app.send_document(
                     chat_id=target_chat_id,
                     document=file,
                     caption=caption,
@@ -296,7 +296,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
 
 
         if msg.video_note:
-            result = await app.send_video_note(target_chat_id, file, reply_to_message_id=topic_id), caption="Join-@skillwithgaurav\nleaked by गौरव"
+            result = await app.send_video_note(target_chat_id, file, reply_to_message_id=topic_id)
             await result.copy(LOG_GROUP)
             await edit.delete(2)
             os.remove(file)
@@ -403,11 +403,11 @@ async def download_user_stories(userbot, chat_id, msg_id, edit, sender):
         if story.media:
             await edit.edit("Uploading Story...")
             if story.media == MessageMediaType.VIDEO:
-                await app.send_video(sender, file_path), caption="Join-@skillwithgaurav\nleaked by गौरव"
+                await app.send_video(sender, file_path)
             elif story.media == MessageMediaType.DOCUMENT:
-                await app.send_document(sender, file_path), caption="Join-@skillwithgaurav\nleaked by गौरव"
+                await app.send_document(sender, file_path)
             elif story.media == MessageMediaType.PHOTO:
-                await app.send_photo(sender, file_path), caption="Join-@skillwithgaurav\nleaked by गौरव"
+                await app.send_photo(sender, file_path)
         if file_path and os.path.exists(file_path):
             os.remove(file_path)  
         await edit.edit("Story processed successfully.")
@@ -859,7 +859,7 @@ async def handle_large_file(file, sender, edit, caption):
         thumb_path = None
     try:
         if file_extension in VIDEO_EXTENSIONS:
-            dm = await pro.send_video(, caption="Join-@skillwithgaurav\nleaked by गौरव"
+            dm = await pro.send_video(
                 LOG_GROUP,
                 video=file,
                 caption=caption,
@@ -876,7 +876,7 @@ async def handle_large_file(file, sender, edit, caption):
             )
         else:
             # Send as document
-            dm = await pro.send_document(, caption="Join-@skillwithgaurav\nleaked by गौरव"
+            dm = await pro.send_document(
                 LOG_GROUP,
                 document=file,
                 caption=caption,
