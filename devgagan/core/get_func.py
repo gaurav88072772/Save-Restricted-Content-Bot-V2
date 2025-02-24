@@ -1,3 +1,4 @@
+
 # ---------------------------------------------------
 # File Name: get_func.py
 # Description: A Pyrogram bot for downloading files from Telegram channels or groups 
@@ -225,7 +226,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
             return
         
         else:
-            edit = await app.edit_message_text(sender, edit_id, "Processing...")
+            edit = await app.edit_message_text(sender, edit_id, "Public link detected...")
             chat = msg_link.split("t.me/")[1].split("/")[0]
             msg_id = int(msg_link.split("/")[-1])
             await copy_message_with_chat_id(app, userbot, sender, chat, msg_id, edit)
@@ -614,7 +615,7 @@ async def send_settings_message(chat_id, user_id):
         [Button.inline("Set Thumbnail", b'setthumb'), Button.inline("Remove Thumbnail", b'remthumb')],
         [Button.inline("PDF Wtmrk", b'pdfwt'), Button.inline("Video Wtmrk", b'watermark')],
         [Button.inline("Upload Method", b'uploadmethod')],  # Include the dynamic Fast DL button
-        [Button.url("Report Errors", "https://t.me/skillwithgaurav")]
+        [Button.url("Report Errors", "https://t.me/ytbr_67")]
     ]
 
     await gf.send_file(
@@ -668,7 +669,7 @@ async def callback_query_handler(event):
         await event.respond('Please send the photo you want to set as the thumbnail.')
     
     elif event.data == b'pdfwt':
-        await event.respond("Watermark is Pro+ Plan.. contact @ytbr_67")
+        await event.respond("Watermark is Pro+ Plan.. contact @kingofpatal")
         return
 
     elif event.data == b'uploadmethod':
